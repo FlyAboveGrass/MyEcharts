@@ -31,16 +31,54 @@
                     
                 </div>
             </section>
-            <section class="pane border-rect"></section>
+            <section class="pane border-rect line">
+                <h2>折线图-人员变化</h2>
+                <div class="chart">
+                    
+                </div>
+            </section>
             <section class="pane border-rect"></section>
         </div>
-        <section class="colume"></section>
-        <div class="colume"></div>
+        <section class="colume">
+            <div class="num">
+                <div class="hd">
+                    <h1>125811</h1>
+                    <h1>104563</h1>
+                </div>
+                <div class="bd">
+                    <h3>前端需求人数</h3>
+                    <h3>前端供应人数</h3>
+                </div>
+            </div>
+            <div class="map">
+                <div class="map-bg">
+                    <div class="circle1"></div>
+                    <div class="circle2"></div>
+                </div>
+                <div class="chart"></div>
+            </div>
+        </section>
+        <div class="colume">
+            <div class="pane border-rect bar2">
+                <h2>柱状图-就业行业</h2>
+                <div class="chart">
+                    
+                </div>
+            </div>
+            <div class="pane border-rect line">
+                <h2>折线图-人员变化</h2>
+                <div class="chart">
+                    
+                </div>
+            </div>
+            <div class="pane border-rect"></div>
+        </div>
     </div>
 </body>
 <script src="./js/jquery.js"></script>
 <script src="./js/echarts.min.js"></script>
 <script>
+    // 就业分布柱状图
     (function() {
         let echart = echarts.init(document.querySelector('.bar .chart'));
         let option = {
@@ -95,13 +133,197 @@
                     type: 'bar',
                     barWidth: '30%', // 柱的宽度
                     itemStyle: {
-                        barBorderRadius: 5
+                        barBorderRadius: 5,
                     },
                     data: [10, 52, 200, 334, 201, 330, 220]
                 }
             ]
         };
         echart.setOption(option);
+        window.addEventListener('resize', () => {
+            echart.resize();
+        })
     })();
+
+    // 柱形图 就业行业
+    (function() {
+        let myChart = echarts.init(document.querySelector('.bar2 .chart'));
+        let myColor = ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"];
+        let option = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                show: false
+            },
+            grid: {
+                top: '5%',
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                show: false
+            },
+            yAxis: [
+                {
+                    type: 'category',
+                    data: ["HTML5", "CSS3", "javascript", "VUE", "NODE"],
+                    axisLine:{    // 轴线
+                        show: false
+                    },
+                    axisTick: {
+                        show: false, // 不显示刻度  tick：标记、记号
+                    },
+                    axisLabel: {    // 刻度样式
+                        color: '#fff',
+                        fontSize: '12px'
+                    },
+                },
+                { // 左右两边都有y轴
+                    show: true,
+                    data: [702, 350, 610, 793, 664],
+                    // 不显示y轴的线
+                    axisLine: {
+                        show: false
+                    },
+                    // 不显示刻度
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            fontSize: 12,
+                            color: "#fff"
+                        }
+                    }
+                }
+            ],
+            series: [        // 子项的内容
+                {
+                    name: '需求人数',
+                    type: 'bar',
+                    data: [70, 34, 60, 78, 69],
+                    barWidth: 10,
+                    barCategoryGap: '20%', // 柱子之间的距离
+                    barWidth: '10px',  // 柱子的宽度
+                    yAxisIndex: 0,
+                    itemStyle: {
+                        barBorderRadius: 20,
+                        color: (params) => {  // 给不同的柱子不同的颜色
+                            return myColor[params.dataIndex]
+                        }
+                    },
+                    label: {  // 柱子的信息
+                        show: true,
+                        position: 'inside',  // 信息显示位置
+                        formatter: '{c}%', // 信息显示内容
+                    }
+                },
+                {
+                    name: '总人数',
+                    type: 'bar',
+                    data: [100, 100, 100, 100, 100],
+                    barWidth: '15px', // 大于上面的，才可以把内部的柱子全部包裹，并且显示完全label
+                    barCategoryGap: 50,
+                    yAxisIndex: 1,
+                    itemStyle: {
+                        barBorderRadius: 20, // 圆角
+                        color: 'none', // 颜色
+                        borderWidth: 3, // 边框宽度
+                        borderColor: '#00c1de', // 边框颜色
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    })();
+
+    // 折线图，人员数量变化
+    (function() {
+        let chart = echarts.init(document.querySelector('.line .chart'));
+        let option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: '5%',
+                left: '3%',
+                bottom: '3%',
+                right: '2%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLabel: {
+                    color: 'rgba(255,255,255,.6)',
+                    fontSize: '12px'
+                }
+            }, 
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '30%'], // 距离边缘的距离
+            },
+            visualMap: {
+                type: 'piecewise',
+                show: false,
+                dimension: 0,
+                seriesIndex: 0,
+                pieces: [{
+                    gt: 1,
+                    lt: 3,
+                    color: 'rgba(0, 180, 0, 0.5)'
+                }, {
+                    gt: 5,
+                    lt: 7,
+                    color: 'rgba(0, 180, 0, 0.5)'
+                }]
+            },
+            series: [
+                {
+                    type: 'line',
+                    smooth: 0.6,
+                    symbol: 'none',
+                    lineStyle: {
+                        color: 'green',
+                        width: 5
+                    },
+                    markLine: {
+                        symbol: ['none', 'none'],
+                        label: {show: false},
+                        data: [
+                            {xAxis: 1},
+                            {xAxis: 3},
+                            {xAxis: 5},
+                            {xAxis: 7}
+                        ]
+                    },
+                    areaStyle: {},
+                    data: [
+                        ['2019-10-10', 200],
+                        ['2019-10-11', 400],
+                        ['2019-10-12', 650],
+                        ['2019-10-13', 500],
+                        ['2019-10-14', 250],
+                        ['2019-10-15', 300],
+                        ['2019-10-16', 450],
+                        ['2019-10-17', 300],
+                        ['2019-10-18', 100]
+                    ]
+                }
+            ]
+        };
+        chart.setOption(option);
+    })();
+
+
+
+
+
+
 </script>
 </html>
