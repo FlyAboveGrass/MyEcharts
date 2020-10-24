@@ -149,9 +149,16 @@ body::before {
   position: relative;
   min-width: 4rem;
   height: 4rem;
-  opacity: 0.6;
   background: url(../images/map.png) center center no-repeat;
   background-size: contain;
+}
+.main-box .colume .map .map-bg .fly {
+  width: 180%;
+  height: 7rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .main-box .colume .map .map-bg .circle1 {
   position: absolute;
@@ -176,6 +183,7 @@ body::before {
   width: 100%;
   height: 100%;
   opacity: 1;
+  opacity: 0.6;
   background: url(../images/lbx.png) center center no-repeat;
   background-size: contain;
   transform: scale(1.3);
