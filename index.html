@@ -37,7 +37,10 @@
                     
                 </div>
             </section>
-            <section class="pane border-rect"></section>
+            <section class="pane border-rect pie">
+                <h2>饼图-年龄分布</h2>
+                <div class="chart"></div>
+            </section>
         </div>
         <section class="colume">
             <div class="num">
@@ -71,7 +74,12 @@
                     
                 </div>
             </div>
-            <div class="pane border-rect"></div>
+            <div class="pane border-rect">
+                <section class="pane border-rect pie2">
+                    <h2>折线图-人员变化</h2>
+                    <div class="chart"></div>
+                </section>
+            </div>
         </div>
     </div>
 </body>
@@ -311,6 +319,10 @@
             ]
         };
         chart.setOption(option);
+
+        window.addEventListener('resize', () => {
+            chart.resize();
+        })
     })();
 
     // 折线图，播放量变化
@@ -466,7 +478,69 @@
     })();
 
 
+    (function() {
+        let myChart = echarts.init(document.querySelector('.pie .chart'));
+        let option = {
+            tooltip: {
+                trigger: 'item',  // 触发方式不再是axis
+                formatter: '{a} <br/>{b}: {c} ({d}%)'  // 显示数据的格式
+            },
+            color: [
+                "#065aab",
+                "#066eab",
+                "#0682ab",
+                "#0696ab",
+                "#06a0ab",
+            ],
+            legend: {
+                orient: 'horizontal',  // 图例的方向
+                bottom: '0px',  
+                data: ["0-20", "20-29", "30-39", "40-49", ">50"],
+                // 图例宽高
+                itemWidth: 10,
+                itemHeight: 10,
+                textStyle: {  // 图例样式
+                    color: 'rgba(255,255,255,.5)',
+                    fontSize: '12px'
+                }
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['40%', '60%'],  // 饼图的内外圆比例。 注意： 和折线图与柱状图的grid方法调整大小的方式不同
+                    center: ['50%', '45%'],  // 饼图的位置
+                    avoidLabelOverlap: false,
+                    label: {  // 饼图的文字说明
+                        show: true,
+                        position: 'outside'  // hover时文字说明的位置
+                    },
+                    emphasis: {  // 高亮的扇区和标签样式。
+                        label: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false , // 饼图对应部分与文字的连接线
+                    },
+                    data: [
+                        { value: 1, name: "0-20" },
+                        { value: 4, name: "20-29" },
+                        { value: 2, name: "30-39" },
+                        { value: 2, name: "40-49" },
+                        { value: 1, name: ">50" }
+                    ]
+                }
+            ]
+        }
+        myChart.setOption(option);
 
+        window.addEventListener('resize', () => {
+            myChart.resize();
+        })
+    })();
 
 
 </script>

@@ -62,7 +62,7 @@ body::before {
   margin: 6px;
 }
 .main-box .colume:nth-child(2) {
-  flex: 1;
+  flex: 5;
 }
 .main-box .colume .pane {
   flex: 1;
@@ -76,8 +76,7 @@ body::before {
   font-weight: 400;
 }
 .main-box .colume .pane .chart {
-  width: 100%;
-  height: 2.5rem;
+  height: 2rem;
 }
 .main-box .colume .num {
   position: relative;
